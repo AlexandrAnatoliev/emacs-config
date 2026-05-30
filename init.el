@@ -26,4 +26,15 @@
             ;; (никаких company-ispell, company-yasnippet по желанию)
             ))
 
-;; Дополнительно можно добавить company-dabbrev (для обычных текстовых слов), но это опционально
+;; === Установка eglot (Emacs 27) ===
+(unless (package-installed-p 'eglot)
+  (package-refresh-contents)
+  (package-install 'eglot))
+
+(require 'eglot)
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '((php-mode :language-id "php") . ("phpactor" "language-server"))))
+
+(add-hook 'php-mode-hook 'eglot-ensure)
